@@ -51,11 +51,33 @@ for(let book of library){
 }
 
 //Write a JavaScript program to get the volume of a Cylinder with four decimal places using object classes.
-let PI = Math.PI;
-let r = 100;
-let h = 25;
-let V = PI*r*r*h;
-console.log(Number.parseFloat(V).toFixed(4));
+
+class Cylinder{
+  constructor(r,h){
+    this.r = r;
+    this.h = h;
+  }
+  
+  set radius(r){
+    this.r = r;
+  }
+  
+  set height(h){
+    this.h = h;
+  }
+  
+  get volume(){
+    this.V = Math.PI*this.r*this.r*this.h;
+    return Number.parseFloat(this.V).toFixed(4);
+  }
+}
+
+let c1 = new Cylinder(1,2);
+console.log(c1.volume);
+let c2 = new Cylinder();
+c2.radius = 5;
+c2.height = 6;
+console.log(c2.volume);
 
 //Write a JavaScript program to sort an array of JavaScript objects.
 //Assuming sorting on the basis of libary ID, descending
