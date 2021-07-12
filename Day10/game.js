@@ -57,9 +57,9 @@ for(let card of cards){
                     document.querySelector('span').innerHTML = matched;
                     if(matched*2==totalBoxes)
                     {
-                        let prompt = window.alert("Congratulations! Play again?");
+                        let prompt = confirm("Congratulations! Play again?");
                         if(prompt)
-                            widnow.reload;
+                            window.location.reload();
                     }
                 }
                 else{
