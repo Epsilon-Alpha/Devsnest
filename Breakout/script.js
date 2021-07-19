@@ -1,15 +1,17 @@
 let scoreboard = document.getElementById('scoreboard');
+let lifeboard = document.getElementById('lifeRemaining');
 let canvas = document.getElementById('canvasElement');
 let context = canvas.getContext('2d');
 
 let x = canvas.width / 2;
-let y = canvas.height / 2;
-let dx = 1;
-let dy = -1;
+let y = canvas.height - 50;
+let dx = 2;
+let dy = -2;
 let radius = 10;
 
 let color = "#0095DD";
 let score = 0;
+let lives = 3;
 
 let paddleHeight = 10;
 let paddleWidth = 75;
@@ -31,8 +33,6 @@ for(let r=0;r<brickRowCount;r++){
         bricks[r][c] = {x:0, y:0, visible:1};
     }
 }
-
-let interval = setInterval(draw, 10);
 
 document.addEventListener('mousemove', (event) =>{
     relativeX = event.clientX - canvas.offsetLeft;
@@ -97,9 +97,19 @@ function draw() {
         if(x > paddleX && x < paddleX + paddleWidth)
             dy = -dy;
         else{
-            alert('Game over.');
-            document.location.reload();
-            clearInterval(interval);
+            lives--;
+            lifeboard.innerHTML = "Lives: " + lives;
+            if(lives == 0){
+                alert('Game over.');
+                document.location.reload();
+            }
+            else{
+                
+                dx = 2;
+                dy = -2;
+                x = canvas.width / 2;
+                y = canvas.height - 50;
+            }
         }
     }
     else{ //Bricks collision
@@ -113,7 +123,6 @@ function draw() {
                     scoreboard.innerHTML = "Score: " + score;
                     
                     if(score == brickRowCount * brickColumnCount){
-                        clearInterval(interval);
                         let prompt = confirm("Congratulations! Play again?");
                         if(prompt)
                             window.location.reload();
@@ -125,5 +134,7 @@ function draw() {
     
     x += dx;
     y += dy;
+    requestAnimationFrame(draw);
 }
 
+draw();
