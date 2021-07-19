@@ -6,11 +6,29 @@ let y = canvas.height / 2;
 let dx = 1;
 let dy = -1;
 let radius = 10;
+
 let color = "#0095DD";
+
 let paddleHeight = 10;
 let paddleWidth = 75;
 let paddleX = (canvas.width - paddleWidth) / 2;
 let paddleY = (canvas.height - paddleHeight);
+
+let brickRowCount = 3;
+let brickColumnCount = 5;
+let brickWidth = 75;
+let brickHeight = 20;
+let brickPadding = 10;
+let brickOffsetTop = 30;
+let brickOffsetLeft = 30;
+
+let bricks = [];
+for(let r=0;r<brickRowCount;r++){
+    bricks[r] = [];
+    for(let c=0;c<brickColumnCount;c++){
+        bricks[r][c] = {x:0, y:0};
+    }
+}
 
 let interval = setInterval(draw, 10);
 
@@ -22,11 +40,26 @@ document.addEventListener('mousemove', (event) =>{
         paddleX = 0;
 })
 
+function drawBricks(){
+    for(let r=0;r<brickRowCount;r++){
+        for(let c=0;c<brickColumnCount;c++){
+            let brickX = brickOffsetLeft + c * (brickWidth + brickPadding);
+            let brickY = brickOffsetTop + r * (brickHeight + brickPadding);
+            bricks[r][c].x = brickX;
+            bricks[r][c].y = brickY;
+            context.beginPath();
+            context.rect(brickX, brickY, brickWidth, brickHeight);
+            context.fillStyle = color;
+            context.fill();
+            context.closePath();
+        }
+    }
+}
 
 function drawPaddle(){
     context.beginPath();
     context.rect(paddleX, paddleY, paddleWidth, paddleHeight);
-    context.fillStyle = "#0095DD";
+    context.fillStyle = color;
     context.fill();
     context.closePath();
 }
@@ -51,6 +84,7 @@ function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     drawBall();
     drawPaddle();
+    drawBricks();
     
     if(x - radius + dx < 0 || x + radius + dx >= canvas.width)
         dx = -dx;
